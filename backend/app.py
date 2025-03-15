@@ -1,7 +1,7 @@
 import os
 import sys
 import json
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 import pandas as pd
@@ -19,14 +19,29 @@ from models.arima_model import ARIMAModel
 from models.prophet_model import ProphetModel
 from models.ml_model import MLModel
 
-app = Flask(__name__)
+# Initialize Flask app with static files from frontend build
+app = Flask(__name__, static_folder='../frontend/build', static_url_path='/')
 CORS(app)
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-key')
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 # Store active stock symbols being tracked
 active_stocks = set()
 # Store prediction models
 prediction_models = {}
+
+# Serve the React frontend
+@app.route('/')
+def serve_frontend():
+    return send_from_directory(app.static_folder, 'index.html')
+
+# Serve static files
+@app.route('/<path:path>')
+def serve_static(path):
+    if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
+        return send_from_directory(app.static_folder, path)
+    else:
+        return send_from_directory(app.static_folder, 'index.html')
 
 @app.route('/api/stock/history', methods=['GET'])
 def get_stock_history():
@@ -232,5 +247,7 @@ if __name__ == '__main__':
     update_thread.daemon = True
     update_thread.start()
     
-    # Start the Flask app
-    socketio.run(app, debug=True, host='0.0.0.0', port=5001) 
+    # Start the Flask app with environment variable configuration
+    port = int(os.environ.get('PORT', 5001))
+    debug = os.environ.get('DEBUG', 'True') == 'True'
+    socketio.run(app, debug=debug, host='0.0.0.0', port=port) 

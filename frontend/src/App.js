@@ -20,7 +20,10 @@ function App() {
 
   // Initialize socket connection
   useEffect(() => {
-    const newSocket = io('http://localhost:5001');
+    // Use environment variable if available, otherwise use window.location.origin for production or localhost for development
+    const socketUrl = process.env.REACT_APP_SOCKET_URL || 
+                     (process.env.NODE_ENV === 'production' ? window.location.origin : 'http://localhost:5001');
+    const newSocket = io(socketUrl);
     setSocket(newSocket);
 
     // Clean up on unmount

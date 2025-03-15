@@ -1,0 +1,13 @@
+venv/
+node_modules/
+.git/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.dist/
+frontend/node_modules/
+frontend/build/
+.vscode/
+.idea/ 
