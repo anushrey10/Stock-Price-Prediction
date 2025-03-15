@@ -1,0 +1,88 @@
+body {
+  margin: 0;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #121212;
+  color: #ffffff;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.stock-card {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.stock-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+}
+
+.price-up {
+  color: #4caf50;
+}
+
+.price-down {
+  color: #f44336;
+}
+
+.chart-container {
+  position: relative;
+  height: 400px;
+  width: 100%;
+}
+
+.dashboard-container {
+  padding: 24px;
+}
+
+.prediction-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.prediction-content {
+  flex-grow: 1;
+}
+
+.model-selector {
+  margin-bottom: 16px;
+}
+
+.stock-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.stock-info-item {
+  padding: 16px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.stock-info-label {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 4px;
+}
+
+.stock-info-value {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+@media (max-width: 600px) {
+  .dashboard-container {
+    padding: 12px;
+  }
+  
+  .stock-info-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+} 
